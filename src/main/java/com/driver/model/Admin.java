@@ -12,7 +12,7 @@ public class Admin{
     @Column(unique = true)
     private String username;
 
-    @Column(unique = true)
+//    @Column(unique = true)
     private String password;
 
     public Admin() {

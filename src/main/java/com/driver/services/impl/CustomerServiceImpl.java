@@ -72,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		Optional<Customer> optionalCustomer = customerRepository2.findById(customerId);
 		if(optionalCustomer.get()==null){
-			return null;
+			throw new Exception("Customer is null");
 		}
 
 		TripBooking tripBooking = new TripBooking();

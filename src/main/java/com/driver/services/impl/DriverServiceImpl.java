@@ -37,9 +37,7 @@ public class DriverServiceImpl implements DriverService {
 		cab.setDriver(driver);
 		cab.setPerKmRate(10);
 		cab.setAvailable(true);
-
-		Cab savedCab = cabRepository3.save(cab);
-		driver.setCab(savedCab);
+		driver.setCab(cab);
 
 		driverRepository3.save(driver);
 
@@ -56,11 +54,10 @@ public class DriverServiceImpl implements DriverService {
 
 		List<TripBooking> tripBookingList = driver.getTripBookingList();
 
-		for(TripBooking tripBooking: driver.getTripBookingList()){
-			tripBooking.setDriver(null);
-			tripBookingRepository.save(tripBooking);
-		}
-		cabRepository3.delete(driver.getCab());
+//		for(TripBooking tripBooking: driver.getTripBookingList()){
+//			tripBooking.setDriver(null);
+//			tripBookingRepository.save(tripBooking);
+//		}
 		driverRepository3.delete(driver);
 
 	}
@@ -74,7 +71,7 @@ public class DriverServiceImpl implements DriverService {
 			return;
 		Driver driver = optionalDriver.get();
 		driver.getCab().setAvailable(false);
-		cabRepository3.save(driver.getCab());
+//		cabRepository3.save(driver.getCab());
 		driverRepository3.save(driver);
 
 	}

@@ -58,6 +58,7 @@ public class DriverServiceImpl implements DriverService {
 //			return;
 		Driver driver = optionalDriver.get();
 		driver.getCab().setAvailable(false);
+		driverRepository3.save(driver);
 
 	}
 }

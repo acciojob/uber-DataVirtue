@@ -110,7 +110,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 //		customerRepository2.save(customer);
 		driverRepository2.save(driver);
-		tripBookingRepository2.save(tripBooking);
+//		tripBookingRepository2.save(tripBooking);
 
 
 	}
@@ -134,7 +134,7 @@ public class CustomerServiceImpl implements CustomerService {
 		tripBookingRepository2.save(tripBooking);
 		driverRepository2.save(driver);
 //		tripBookingRepository2.save(tripBooking);
-		customerRepository2.save(customer);
+//		customerRepository2.save(customer);
 
 	}
 }

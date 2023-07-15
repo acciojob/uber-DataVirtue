@@ -32,11 +32,14 @@ public class DriverServiceImpl implements DriverService {
 		Driver driver = new Driver();
 		driver.setMobile(mobile);
 		driver.setPassword(password);
+
 		Cab cab = new Cab();
 		cab.setDriver(driver);
 		cab.setPerKmRate(10);
 		cab.setAvailable(true);
-		driver.setCab(cab);
+
+		Cab savedCab = cabRepository3.save(cab)
+		driver.setCab(savedCab);
 
 		driverRepository3.save(driver);
 
@@ -57,7 +60,7 @@ public class DriverServiceImpl implements DriverService {
 			tripBooking.setDriver(null);
 			tripBookingRepository.save(tripBooking);
 		}
-
+		cabRepository3.delete(driver.getCab());
 		driverRepository3.delete(driver);
 
 	}
@@ -71,6 +74,7 @@ public class DriverServiceImpl implements DriverService {
 			return;
 		Driver driver = optionalDriver.get();
 		driver.getCab().setAvailable(false);
+		cabRepository3.save(driver.getCab());
 		driverRepository3.save(driver);
 
 	}

@@ -50,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
 		Collections.sort(driverList,(a, b)-> a.getDriverId() - b.getDriverId());
 		Driver assignedDriver = null;
 		for(Driver driver: driverList){
-			if(driver.getCab().isAvailable())
+			if(driver.getCab().getAvailable())
 				assignedDriver = driver;
 				break;
 		}

@@ -57,15 +57,16 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		if(assignedDriver==null)
 			throw new Exception("No cab available!");
+
 		TripBooking tripBooking = new TripBooking();
 		tripBooking.setFromLocation(fromLocation);
 		tripBooking.setToLocation(toLocation);
 		tripBooking.setDistanceInKm(distanceInKm);
 
 		Optional<Customer> optionalCustomer = customerRepository2.findById(customerId);
-//		if(customerOptional.get()==null){
-//			return null
-//		}
+		if(optionalCustomer.get()==null){
+			return null;
+		}
 		Customer customer = optionalCustomer.get();
 
 		tripBooking.setCustomer(customer);
@@ -106,8 +107,8 @@ public class CustomerServiceImpl implements CustomerService {
 
 //		tripBookingRepository2.deleteById(tripId);
 
-		customerRepository2.save(customer);
-		driverRepository2.save(driver);
+//		customerRepository2.save(customer);
+//		driverRepository2.save(driver);
 		tripBookingRepository2.save(tripBooking);
 
 

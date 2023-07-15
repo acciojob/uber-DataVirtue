@@ -56,6 +56,9 @@ public class CustomerServiceImpl implements CustomerService {
 		//Book the driver with lowest driverId who is free (cab available variable is Boolean.TRUE). If no driver is available, throw "No cab available!" exception
 		//Avoid using SQL query
 		List<Driver> driverList = driverRepository2.findAll();
+		if(driverList.isEmpty())
+			throw new Exception("No cab available!");
+
 		Collections.sort(driverList,(a, b)-> a.getDriverId() - b.getDriverId());
 		Driver assignedDriver = null;
 		for(Driver driver: driverList){
@@ -67,15 +70,17 @@ public class CustomerServiceImpl implements CustomerService {
 		if(assignedDriver==null)
 			throw new Exception("No cab available!");
 
+		Optional<Customer> optionalCustomer = customerRepository2.findById(customerId);
+		if(optionalCustomer.get()==null){
+			return null;
+		}
+
 		TripBooking tripBooking = new TripBooking();
 		tripBooking.setFromLocation(fromLocation);
 		tripBooking.setToLocation(toLocation);
 		tripBooking.setDistanceInKm(distanceInKm);
 
-		Optional<Customer> optionalCustomer = customerRepository2.findById(customerId);
-		if(optionalCustomer.get()==null){
-			return null;
-		}
+
 		Customer customer = optionalCustomer.get();
 
 		tripBooking.setCustomer(customer);
@@ -105,21 +110,15 @@ public class CustomerServiceImpl implements CustomerService {
 
 		TripBooking tripBooking = optionalTripBooking.get();
 
-		Customer customer = tripBooking.getCustomer();
+//		Customer customer = tripBooking.getCustomer();
 		Driver driver = tripBooking.getDriver();
 
-//		tripBooking.setStatus(TripStatus.CANCELED);
+		tripBooking.setStatus(TripStatus.CANCELED);
 
-//		customer.getTripBookingList().remove(tripBooking.getTripBookingId());
-//		driver.getTripBookingList().remove(tripBooking.getTripBookingId());
-
-		driver.getCab().setAvailable(true);
-//		driver.getTripBookingList()
-
-//		tripBookingRepository2.deleteById(tripId);
-
-//		customerRepository2.save(customer);
-		driverRepository2.save(driver);
+		if(driver!=null) {
+			driver.getCab().setAvailable(true);
+			driverRepository2.save(driver);
+		}
 
 		tripBookingRepository2.save(tripBooking);
 

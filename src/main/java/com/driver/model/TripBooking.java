@@ -23,6 +23,8 @@ public class TripBooking {
     @JoinColumn
     private Driver driver;
 
+
+
     public int getTripBookingId() {
         return tripBookingId;
     }

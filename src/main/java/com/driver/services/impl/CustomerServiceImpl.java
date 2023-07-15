@@ -95,10 +95,14 @@ public class CustomerServiceImpl implements CustomerService {
 		Customer customer = tripBooking.getCustomer();
 		Driver driver = tripBooking.getDriver();
 
-		customer.getTripBookingList().remove(tripBooking.getTripBookingId());
-		driver.getTripBookingList().remove(tripBooking.getTripBookingId());
+		tripBooking.setStatus(TripStatus.CANCELED);
 
-		tripBookingRepository2.deleteById(tripId);
+//		customer.getTripBookingList().remove(tripBooking.getTripBookingId());
+//		driver.getTripBookingList().remove(tripBooking.getTripBookingId());
+
+//		driver.getCab().setAvailable(true);
+
+//		tripBookingRepository2.deleteById(tripId);
 
 		customerRepository2.save(customer);
 		driverRepository2.save(driver);
@@ -117,7 +121,11 @@ public class CustomerServiceImpl implements CustomerService {
 		TripBooking tripBooking = optionalTripBooking.get();
 
 		tripBooking.setStatus(TripStatus.COMPLETED);
-		tripBookingRepository2.save(tripBooking);
+		Driver driver = tripBooking.getDriver();
+		driver.getCab().setAvailable(true);
+
+//		tripBookingRepository2.save(tripBooking);
+		driverRepository2.save(driver);
 
 	}
 }

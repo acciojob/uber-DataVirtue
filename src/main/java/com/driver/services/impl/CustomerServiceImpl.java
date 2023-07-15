@@ -111,6 +111,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 		TripBooking tripBooking = optionalTripBooking.get();
 
+		if(tripBooking.getStatus().equals(TripStatus.COMPLETED))
+			return; // cannot cancel a completed trip
+
 //		Customer customer = tripBooking.getCustomer();
 		Driver driver = tripBooking.getDriver();
 
@@ -135,6 +138,9 @@ public class CustomerServiceImpl implements CustomerService {
 			return;
 
 		TripBooking tripBooking = optionalTripBooking.get();
+
+		if(tripBooking.getStatus().equals(TripStatus.CANCELED))
+			return; // cannot complete a cancelled trip
 
 		tripBooking.setStatus(TripStatus.COMPLETED);
 		Driver driver = tripBooking.getDriver();

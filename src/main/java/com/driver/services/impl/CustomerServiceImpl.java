@@ -37,8 +37,17 @@ public class CustomerServiceImpl implements CustomerService {
 		if(optionalCustomer.get()==null) {
 			return;
 		}
+		Customer customer = optionalCustomer.get();
+
+		List<TripBooking> tripBookingList = customer.getTripBookingList();
+
+		for(TripBooking tripBooking: tripBookingList){
+			tripBooking.setCustomer(null);
+			tripBookingRepository2.save(tripBooking);
+		}
 
 		customerRepository2.delete(optionalCustomer.get());
+
 
 	}
 

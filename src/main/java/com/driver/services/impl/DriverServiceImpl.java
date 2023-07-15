@@ -1,7 +1,9 @@
 package com.driver.services.impl;
 
 import com.driver.model.Cab;
+import com.driver.model.TripBooking;
 import com.driver.repository.CabRepository;
+import com.driver.repository.TripBookingRepository;
 import com.driver.services.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.driver.model.Driver;
 import com.driver.repository.DriverRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +19,9 @@ public class DriverServiceImpl implements DriverService {
 
 	@Autowired
 	DriverRepository driverRepository3;
+
+	@Autowired
+	TripBookingRepository tripBookingRepository;
 
 	@Autowired
 	CabRepository cabRepository3;
@@ -41,9 +47,16 @@ public class DriverServiceImpl implements DriverService {
 		// Delete driver without using deleteById function
 		Optional<Driver> optionalDriver = driverRepository3.findById(driverId);
 
-//		if(optionalDriver.get()==null)
-//			return;
+		if(optionalDriver.get()==null)
+			return;
 		Driver driver = optionalDriver.get();
+
+		List<TripBooking> tripBookingList = driver.getTripBookingList();
+
+		for(TripBooking tripBooking: driver.getTripBookingList()){
+			tripBooking.setDriver(null);
+			tripBookingRepository.save(tripBooking);
+		}
 
 		driverRepository3.delete(driver);
 
@@ -54,8 +67,8 @@ public class DriverServiceImpl implements DriverService {
 		//Set the status of respective car to unavailable
 		Optional<Driver> optionalDriver = driverRepository3.findById(driverId);
 
-//		if(optionalDriver.get()==null)
-//			return;
+		if(optionalDriver.get()==null)
+			return;
 		Driver driver = optionalDriver.get();
 		driver.getCab().setAvailable(false);
 		driverRepository3.save(driver);
